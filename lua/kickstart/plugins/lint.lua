@@ -41,6 +41,12 @@ return {
       -- lint.linters_by_ft['terraform'] = nil
       -- lint.linters_by_ft['text'] = nil
 
+      lint.linters_by_ft = lint.linters_by_ft or {}
+      lint.linters_by_ft['javascript'] = { 'eslint_d' }
+      lint.linters_by_ft['typescript'] = { 'eslint_d' }
+      lint.linters_by_ft['javascriptreact'] = { 'eslint_d' }
+      lint.linters_by_ft['typescriptreact'] = { 'eslint_d' }
+
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
