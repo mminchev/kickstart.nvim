@@ -7,6 +7,10 @@ return {
   },
   config = function()
     vim.keymap.set('n', '<leader>f', ':NvimTreeFindFileToggle<CR>', { desc = '[F]ile tree toggle' })
-    require('nvim-tree').setup {}
+    require('nvim-tree').setup {
+      view = {
+        width = 50,
+      },
+    }
   end,
 }
