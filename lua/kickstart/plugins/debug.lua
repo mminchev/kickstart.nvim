@@ -33,6 +33,8 @@ return {
       -- reasonable debug configurations
       automatic_setup = true,
 
+      automatic_installation = false,
+
       -- You can provide additional configuration to the handlers,
       -- see mason-nvim-dap README for more information
       handlers = {},
@@ -42,6 +44,7 @@ return {
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'codelldb',
       },
     }
 
