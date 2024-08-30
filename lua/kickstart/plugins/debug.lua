@@ -45,6 +45,7 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
         'codelldb',
+        'js-debug-adapter',
       },
     }
 
@@ -89,5 +90,37 @@ return {
 
     -- Install golang specific config
     require('dap-go').setup()
+
+    -- Install typescript/javascript config
+    dap.adapters['pwa-node'] = {
+      type = 'server',
+      host = 'localhost',
+      port = 8123,
+      executable = {
+        command = 'js-debug-adapter',
+        args = { '8123' },
+      },
+    }
+
+    for _, language in ipairs { 'typescript', 'javascript' } do
+      dap.configurations[language] = {
+        {
+          type = 'pwa-node',
+          request = 'launch',
+          name = 'Launch file',
+          program = '${file}',
+          cwd = '${workspaceFolder}',
+          port = 7001,
+        },
+        {
+          type = 'pwa-node',
+          request = 'attach',
+          name = 'Attach',
+          processId = require('dap.utils').pick_process,
+          cwd = '${workspaceFolder}',
+          port = 7001,
+        },
+      }
+    end
   end,
 }
