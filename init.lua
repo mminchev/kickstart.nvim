@@ -521,9 +521,9 @@ require('lazy').setup {
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
           -- Formats the file
-          map('<leader>cf', vim.lsp.buf.format, '[C]ode [F]ormat')
+          -- map('<leader>cf', vim.lsp.buf.format, '[C]ode [F]ormat')
 
-          vim.keymap.set('v', 'F', vim.lsp.buf.format, { buffer = event.buf, desc = 'LSP: ' .. '[F]ormat' })
+          -- vim.keymap.set('v', 'F', vim.lsp.buf.format, { buffer = event.buf, desc = 'LSP: ' .. '[F]ormat' })
 
           -- Opens a popup that displays documentation about the word under your cursor
           --  See `:help K` for why this keymap.
@@ -613,6 +613,7 @@ require('lazy').setup {
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'eslint_d',
+        'prettier',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -633,28 +634,49 @@ require('lazy').setup {
 
   { -- Autoformat
     'stevearc/conform.nvim',
-    opts = {
-      notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
-      },
-    },
+    config = function()
+      local conform = require 'conform'
+      local opts = {
+        notify_on_error = false,
+        format_on_save = function(bufnr)
+          -- Disable "format_on_save lsp_fallback" for languages that don't
+          -- have a well standardized coding style. You can add additional
+          -- languages here or re-enable it for the disabled ones.
+          -- local disable_filetypes = { c = true, cpp = true }
+          return {
+            timeout_ms = 500,
+            -- lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+            lsp_format = 'fallback',
+          }
+        end,
+        formatters_by_ft = {
+          lua = { 'stylua' },
+          -- Conform can also run multiple formatters sequentially
+          -- python = { "isort", "black" },
+          --
+          -- You can use a sub-list to tell conform to run *until* a formatter
+          -- is found.
+          -- javascript = { { "prettierd", "prettier" } },
+          json = { 'prettier' },
+        },
+      }
+
+      vim.api.nvim_create_autocmd('BufEnter', {
+        group = vim.api.nvim_create_augroup('kickstart-conform-buff-enter', { clear = true }),
+        callback = function(event)
+          -- Formats the file
+          vim.keymap.set('n', '<leader>cf', function()
+            conform.format { lsp_format = 'fallback' }
+          end, { buffer = event.buf, desc = '[C]ode [F]ormat' })
+
+          vim.keymap.set('v', 'F', function()
+            conform.format { lsp_format = 'fallback' }
+          end, { buffer = event.buf, desc = '[F]ormat' })
+        end,
+      })
+
+      conform.setup(opts)
+    end,
   },
 
   { -- Autocompletion
