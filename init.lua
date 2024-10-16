@@ -90,17 +90,12 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-<<<<<<< HEAD
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = true
 
 -- Disable netrw
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-=======
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
->>>>>>> upstream/master
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -181,6 +176,7 @@ vim.opt.expandtab = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
