@@ -884,11 +884,14 @@ require('lazy').setup {
   {
     'sainnhe/gruvbox-material',
     priority = 1000,
+  },
+  {
+    'rebelot/kanagawa.nvim',
+    priority = 1000,
     init = function()
-      vim.cmd.colorscheme 'gruvbox-material'
+      vim.cmd.colorscheme 'kanagawa-wave'
     end,
   },
-
   -- {
   --   'catppuccin/nvim',
   --   name = 'catppuccin',
