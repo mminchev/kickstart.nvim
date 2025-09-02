@@ -773,6 +773,7 @@ require('lazy').setup {
         },
 
         dockerls = {},
+        gopls = {},
       }
 
       -- Ensure the servers and tools above are installed
