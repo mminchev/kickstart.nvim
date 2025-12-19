@@ -156,6 +156,15 @@ vim.o.splitbelow = true
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+-- Disable listchars for certain filetypes
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Disable listchars for certain filetypes',
+  pattern = 'go',
+  callback = function()
+    vim.opt_local.list = false
+  end,
+})
+
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
 
