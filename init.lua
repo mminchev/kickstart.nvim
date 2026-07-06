@@ -221,7 +221,6 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- [[ My Keymaps ]]
 
-vim.keymap.set('i', 'jj', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('n', '<C-n>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<C-s>', ':update<CR>')
 
