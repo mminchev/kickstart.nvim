@@ -25,6 +25,8 @@ vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint(vim.fn
 -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
 vim.keymap.set('n', '<F7>', function() require('dapui').toggle() end, { desc = 'Debug: See last session result.' })
 
+vim.keymap.set('n', '<M-k>', function() require('dapui').eval() end, { desc = 'Debug: eval current word.' })
+
 local dap = require 'dap'
 local dapui = require 'dapui'
 
@@ -42,6 +44,8 @@ require('mason-nvim-dap').setup {
   ensure_installed = {
     -- Update this to ensure that you have the debuggers for the langs you want
     'delve',
+    'codelldb',
+    'js-debug-adapter',
   },
 }
 
@@ -93,3 +97,35 @@ require('dap-go').setup {
     detached = vim.fn.has 'win32' == 0,
   },
 }
+
+-- Install js-debug-adapter config
+dap.adapters['pwa-node'] = {
+  type = 'server',
+  host = 'localhost',
+  port = 8123,
+  executable = {
+    command = 'js-debug-adapter',
+    args = { '8123' },
+  },
+}
+
+for _, language in ipairs { 'typescript', 'javascript' } do
+  dap.configurations[language] = {
+    {
+      type = 'pwa-node',
+      request = 'launch',
+      name = 'Launch file',
+      program = '${file}',
+      cwd = '${workspaceFolder}',
+      port = 7001,
+    },
+    {
+      type = 'pwa-node',
+      request = 'attach',
+      name = 'Attach',
+      processId = require('dap.utils').pick_process,
+      cwd = '${workspaceFolder}',
+      port = 7001,
+    },
+  }
+end
