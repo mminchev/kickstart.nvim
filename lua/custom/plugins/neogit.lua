@@ -1,22 +1,7 @@
-return {
-  'NeogitOrg/neogit',
-  lazy = true,
-  dependencies = {
-    -- Only one of these is needed.
-    'sindrets/diffview.nvim', -- optional
-    -- 'esmuellert/codediff.nvim', -- optional
-
-    -- For a custom log pager
-    -- 'm00qek/baleia.nvim', -- optional
-
-    -- Only one of these is needed.
-    'nvim-telescope/telescope.nvim', -- optional
-    -- 'ibhagwan/fzf-lua', -- optional
-    -- 'nvim-mini/mini.pick', -- optional
-    -- 'folke/snacks.nvim', -- optional
-  },
-  cmd = 'Neogit',
-  keys = {
-    { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Show Neogit UI' },
-  },
+vim.pack.add {
+  'https://github.com/neogitorg/neogit',
+  'https://github.com/sindrets/diffview.nvim',
+  'https://github.com/nvim-telescope/telescope.nvim',
 }
+
+vim.keymap.set('n', '<leader>gg', '<cmd>Neogit<cr>', { desc = 'Show Neogit UI' })
