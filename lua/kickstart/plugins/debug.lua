@@ -13,6 +13,7 @@ vim.pack.add {
   'https://github.com/mason-org/mason.nvim',
   'https://github.com/jay-babu/mason-nvim-dap.nvim',
   'https://github.com/leoluz/nvim-dap-go',
+  { src = 'https://github.com/igorlfs/nvim-dap-view', version = vim.version.range '1.*' },
 }
 
 -- Basic debugging keymaps, feel free to change to your liking!
@@ -23,12 +24,13 @@ vim.keymap.set('n', '<F3>', function() require('dap').step_out() end, { desc = '
 vim.keymap.set('n', '<leader>b', function() require('dap').toggle_breakpoint() end, { desc = 'Debug: Toggle Breakpoint' })
 vim.keymap.set('n', '<leader>B', function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, { desc = 'Debug: Set Breakpoint' })
 -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-vim.keymap.set('n', '<F7>', function() require('dapui').toggle() end, { desc = 'Debug: See last session result.' })
+vim.keymap.set('n', '<F7>', function() require('dap-view').toggle() end, { desc = 'Debug: See last session result.' })
 
 vim.keymap.set('n', '<M-k>', function() require('dapui').eval() end, { desc = 'Debug: eval current word.' })
 
 local dap = require 'dap'
 local dapui = require 'dapui'
+local dapview = require 'dap-view'
 
 require('mason-nvim-dap').setup {
   -- Makes a best effort to setup the various debuggers with
@@ -85,9 +87,22 @@ dapui.setup {
 --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
 -- end
 
-dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-dap.listeners.before.event_exited['dapui_config'] = dapui.close
+-- dap.listeners.after.event_initialized['dapui_config'] = dapui.open
+-- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
+-- dap.listeners.before.event_exited['dapui_config'] = dapui.close
+
+dapview.setup {
+  keymaps = {
+    scopes = {
+      toggle = { '<CR>', '<2-LeftMouse>', '<TAB>' },
+    },
+    watches = {
+      toggle = { '<CR>', '<2-LeftMouse>', '<TAB>' },
+    },
+  },
+
+  auto_toggle = true,
+}
 
 -- Install golang specific config
 require('dap-go').setup {
