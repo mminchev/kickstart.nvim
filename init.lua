@@ -833,7 +833,9 @@ do
       local enabled_filetypes = {
         lua = true,
         javascript = true,
+        javascriptreact = true,
         typescript = true,
+        typescriptreact = true,
         go = true,
         cpp = true,
         -- python = true,
