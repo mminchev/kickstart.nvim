@@ -741,6 +741,11 @@ do
     clangd = {},
     gopls = {},
     pyright = {},
+    ruff = {
+      cmd = { 'uv', 'run', 'ruff', 'server' },
+      filetypes = { 'python' },
+      root_markers = { 'pyproject.toml', 'ruff.toml', '.ruff.toml', '.git' },
+    },
     -- rust_analyzer = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
