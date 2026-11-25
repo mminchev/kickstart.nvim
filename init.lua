@@ -843,7 +843,7 @@ do
         typescriptreact = true,
         go = true,
         cpp = true,
-        -- python = true,
+        python = true,
       }
       if enabled_filetypes[vim.bo[bufnr].filetype] then
         return { timeout_ms = 500 }
